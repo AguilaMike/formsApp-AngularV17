@@ -1,19 +1,19 @@
 <h2>Reactivos: Switches</h2>
 <hr>
 
-<form autocomplete="off">
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" autocomplete="off">
   <!-- Radio -->
   <div class="row mb-3">
     <label class="col-sm-3 col-form-label">Género</label>
     <div class="col-sm-9">
       <div class="form-check">
-        <input class="form-check-input" type="radio" value="M" id="radioMasculino">
+        <input class="form-check-input" type="radio" formControlName="gender" value="M" id="radioMasculino">
         <label class="form-check-label" for="radioMasculino">
           Masculino
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" value="F" id="radioFemenino">
+        <input class="form-check-input" type="radio" formControlName="gender" value="F" id="radioFemenino">
         <label class="form-check-label" for="radioFemenino">
           Femenino
         </label>
@@ -26,7 +26,7 @@
     <label class="col-sm-3 col-form-label">Notificaciones</label>
     <div class="col-sm-9">
       <div class="form-check form-switch mt-2">
-        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+        <input class="form-check-input" type="checkbox" formControlName="wantNotifications" id="flexSwitchCheckChecked">
         <label class="form-check-label" for="flexSwitchCheckChecked">Quiero recibir notificaciones</label>
       </div>
     </div>
@@ -37,14 +37,16 @@
     <label class="col-sm-3 col-form-label"></label>
     <div class="col-sm-9">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" formControlName="termsAndConditions" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
           Términos y condiciones de uso
         </label>
       </div>
-      <span class="form-text text-danger">
-        Debe de aceptar las condiciones de uso
-      </span>
+      @if (isValidField('termsAndConditions')) {
+        <span class="form-text text-danger">
+          Debe de aceptar las condiciones de uso
+        </span>
+      }
     </div>
   </div>
 
@@ -58,20 +60,73 @@
   </div>
 </form>
 
+<div class="row">
+  <div class="col">
+    <span>Valid</span>
+    <pre>{{ myForm.valid | json }}</pre>
 
-<h5>Valor del formulario</h5>
-<pre>{{ 'object' | json }}</pre>
-<br>
+    <span>Pristine</span>
+    <pre>{{ myForm.pristine| json }}</pre>
 
-<h5>Persona</h5>
-<pre>{{ 'object' | json }}</pre>
-<br>
+    <span>Touched</span>
+    <pre>{{ myForm.touched | json }}</pre>
 
-<h5>Valid</h5>
-<pre>{{ 'object' | json }}</pre>
+    <span>Value</span>
+    <pre>{{ myForm.value | json }}</pre>
 
-<!-- <h5>Términos</h5> -->
-<!-- <pre>{{ myForm.controls?.terminos?.errors | json }}</pre> -->
+    <span>Errors</span>
+    <pre>{{ myForm.errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Genero</span>
+    <pre>{{ myForm.controls['gender'].value | json }}</pre>
 
-<!-- <br>
-<pre>Condiciones: </pre> -->
+    <span>Producto - Pristine</span>
+    <pre>{{ myForm.controls['gender'].pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ myForm.controls['gender'].touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ myForm.controls['gender'].valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ myForm.controls['gender'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>wantNotifications</span>
+    <pre>{{ myForm.controls['wantNotifications'].value | json }}</pre>
+
+    <span>Producto - Pristine</span>
+    <pre>{{ myForm.controls['wantNotifications'].pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ myForm.controls['wantNotifications'].touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ myForm.controls['wantNotifications'].valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ myForm.controls['wantNotifications'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>termsAndConditions</span>
+    <pre>{{ myForm.controls['termsAndConditions'].value | json }}</pre>
+
+    <span>Producto - Pristine</span>
+    <pre>{{ myForm.controls['termsAndConditions'].pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ myForm.controls['termsAndConditions'].touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ myForm.controls['termsAndConditions'].valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ myForm.controls['termsAndConditions'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Person</span>
+    <pre>{{ person | json }}</pre>
+  </div>
+</div>

@@ -1,16 +1,19 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr>
 
-<form autocomplete="off">
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <!-- Nombre -->
     <div class="mb-3 row">
       <label class="col-sm-3 col-form-label">Nombre</label>
       <div class="col-sm-9">
         <input  class="form-control"
+                formControlName="name"
                 placeholder="Nombre de la persona">
-        <span class="form-text text-danger">
-          error message
-        </span>
+        @if (isValidField('name')) {
+          <span class="form-text text-danger">
+            {{ getErrorMessage('name') }}
+          </span>
+        }
       </div>
     </div>
     <!-- Agregar Favorito -->
@@ -18,9 +21,11 @@
         <label class="col-sm-3 col-form-label">Agregar</label>
         <div class="col-sm-9">
           <div class="input-group">
-            <input class="form-control"
+            <input  class="form-control"
+                    [formControl]="newFavorite"
                     placeholder="Agregar favorito">
             <button class="btn btn-outline-primary"
+                    (click)="onAddFavorite()"
                     type="button">
               Agregar favorito
             </button>
@@ -30,19 +35,24 @@
     <!-- Lista de Juegos Favoritos -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Favoritos</label>
-        <div class="col-sm-9">
-          <div class="mb-1">
-            <div class="input-group">
-              <input class="form-control">
-              <button class="btn btn-outline-danger"
-                      type="button">
-                Eliminar
-              </button>
+        <div class="col-sm-9" formArrayName="favoriteGames">
+          @for (favorite of favoriteGames.controls; track i; let i = $index) {
+            <div class="mb-1">
+              <div class="input-group">
+                <input [formControlName]="i" class="form-control">
+                <button class="btn btn-outline-danger"
+                        (click)="onDeleteFavorite(i)"
+                        type="button">
+                  Eliminar
+                </button>
+              </div>
+              @if (isValidFieldInArray(favoriteGames, i)) {
+                <span class="form-text text-danger">
+                  {{ getErrorMessageArray(favoriteGames, i) }}
+                </span>
+              }
             </div>
-            <span class="form-text text-danger">
-              Este campo es requerido
-            </span>
-          </div>
+          }
         </div>
     </div>
     <div class="row">
@@ -57,14 +67,53 @@
     </div>
 </form>
 
-<span>Valid</span>
-<pre>{{ 'object' | json }}</pre>
-<br>
+<div class="row">
+  <div class="col">
+    <span>Valid</span>
+    <pre>{{ myForm.valid | json }}</pre>
 
-<span>Value</span>
-<pre>{{ 'object' | json }}</pre>
-<br>
+    <span>Pristine</span>
+    <pre>{{ myForm.pristine| json }}</pre>
 
-<span>Agregar Juego</span>
-<pre>{{ 'object' | json }}</pre>
-<pre>{{ 'object' | json }}</pre>
+    <span>Touched</span>
+    <pre>{{ myForm.touched | json }}</pre>
+
+    <span>Value</span>
+    <pre>{{ myForm.value | json }}</pre>
+
+    <span>Errors</span>
+    <pre>{{ myForm.errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Nombre</span>
+    <pre>{{ myForm.controls['name'].value | json }}</pre>
+
+    <span>Producto - Pristine</span>
+    <pre>{{ myForm.controls['name'].pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ myForm.controls['name'].touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ myForm.controls['name'].valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ myForm.controls['name'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Agregar Favorito</span>
+    <pre>{{ newFavorite.value | json }}</pre>
+
+    <span>Producto - Pristine</span>
+    <pre>{{ newFavorite.pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ newFavorite.touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ newFavorite.valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ newFavorite.errors | json }}</pre>
+  </div>
+</div>

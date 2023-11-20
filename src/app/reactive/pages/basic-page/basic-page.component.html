@@ -3,19 +3,25 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
       <!-- Campo de producto -->
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Producto</label>
         <div class="col-sm-9">
           <input  type="text"
                   class="form-control"
+                  formControlName="name"
                   placeholder="Nombre del producto">
-
-          <span class="form-text text-danger">
-            <!-- Debe de ser de 3 letras -->
-            error message
-          </span>
+          @if (isValidField('name')) {
+            <span class="form-text text-danger">
+              {{ getErrorMessage('name') }}
+            </span>
+          }
+          <!-- @if (myForm.controls['name'].getError('minlength') && myForm.controls['name'].touched) {
+            <span class="form-text text-danger">
+              Este campo requiere mínimo 3 letras.
+            </span>
+          } -->
         </div>
       </div>
 
@@ -25,10 +31,23 @@
           <div class="col-sm-9">
               <input  type="number"
                       class="form-control"
+                      formControlName="price"
                       placeholder="Precio del producto">
-              <span class="form-text text-danger">
-                El precio debe de ser 0 o mayor
-              </span>
+              @if (isValidField('price')) {
+                <span class="form-text text-danger">
+                  {{ getErrorMessage('price') }}
+                </span>
+              }
+              <!-- @if (myForm.controls['price'].getError('required') && myForm.controls['price'].touched) {
+                <span class="form-text text-danger">
+                  Este campo es requerido.
+                </span>
+              }
+              @if (myForm.controls['price'].getError('min') && myForm.controls['price'].touched) {
+                <span class="form-text text-danger">
+                  El precio debe de ser 0 o mayor
+                </span>
+              } -->
           </div>
       </div>
 
@@ -38,14 +57,16 @@
           <div class="col-sm-9">
               <input  type="number"
                       class="form-control"
+                      formControlName="inStorage"
                       placeholder="Existencias del producto">
 
-              <span class="form-text text-danger">
-                Las existencias deben de ser 0 o mayor
-              </span>
+              @if (isValidField('inStorage')) {
+                <span class="form-text text-danger">
+                  {{ getErrorMessage('inStorage') }}
+                </span>
+              }
           </div>
       </div>
-
 
       <div class="row">
           <div class="col">
@@ -62,21 +83,66 @@
 <div class="row">
   <div class="col">
     <span>Valid</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.valid | json }}</pre>
 
     <span>Pristine</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.pristine| json }}</pre>
 
     <span>Touched</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.touched | json }}</pre>
 
     <span>Value</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.value | json }}</pre>
 
-    <span>Precio</span>
-    <pre>{{ 'objeto' | json }}</pre>
-
+    <span>Errors</span>
+    <pre>{{ myForm.errors | json }}</pre>
+  </div>
+  <div class="col">
     <span>Producto</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.controls['name'].value | json }}</pre>
+
+    <span>Producto - Pristine</span>
+    <pre>{{ myForm.controls['name'].pristine | json }}</pre>
+
+    <span>Producto - Touched</span>
+    <pre>{{ myForm.controls['name'].touched | json }}</pre>
+
+    <span>Producto - Valid</span>
+    <pre>{{ myForm.controls['name'].valid | json }}</pre>
+
+    <span>Producto - Errors</span>
+    <pre>{{ myForm.controls['name'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Precio</span>
+    <pre>{{ myForm.controls['price'].value | json }}</pre>
+
+    <span>Precio - Pristine</span>
+    <pre>{{ myForm.controls['price'].pristine | json }}</pre>
+
+    <span>Precio - Touched</span>
+    <pre>{{ myForm.controls['price'].touched | json }}</pre>
+
+    <span>Precio - Valid</span>
+    <pre>{{ myForm.controls['price'].valid | json }}</pre>
+
+    <span>Precio - Errors</span>
+    <pre>{{ myForm.controls['price'].errors | json }}</pre>
+  </div>
+  <div class="col">
+    <span>Existencias</span>
+    <pre>{{ myForm.controls['inStorage'].value | json }}</pre>
+
+    <span>Existencias - Pristine</span>
+    <pre>{{ myForm.controls['inStorage'].pristine | json }}</pre>
+
+    <span>Existencias - Touched</span>
+    <pre>{{ myForm.controls['inStorage'].touched | json }}</pre>
+
+    <span>Existencias - Valid</span>
+    <pre>{{ myForm.controls['inStorage'].valid | json }}</pre>
+
+    <span>Existencias - Errors</span>
+    <pre>{{ myForm.controls['inStorage'].errors | json }}</pre>
   </div>
 </div>
